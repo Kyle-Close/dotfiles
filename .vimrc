@@ -7,6 +7,9 @@ call plug#begin('~/.local/share/nvim/plugged')
 
 " List plugins here
 Plug 'morhetz/gruvbox'
+Plug 'preservim/nerdtree'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'vimwiki/vimwiki'
 
 " End of plugin section
  call plug#end()
@@ -14,6 +17,10 @@ Plug 'morhetz/gruvbox'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Remappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let mapleader = ","
+
+" Hit leader + o to navigate the open buffers
+nnoremap <Leader>o :ls<CR>
 
 " Jump up or down the page by using ctrl+j/k instead of ctrl+d/u
 nnoremap <C-d> <C-j>
@@ -50,9 +57,6 @@ filetype indent on
 " Vim will detect if the file has been changed from an outside source and reload if needed
 set autoread
 au FocusGained,BufEnter * silent! checktime
-
-" Set the leader key to ,
-let mapleader = ","
 
 " When scrolling with jk, make sure that there are at least 7 lines above or below the cursor for visibility
 set so=7

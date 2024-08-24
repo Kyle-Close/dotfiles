@@ -1,3 +1,13 @@
 [submodule ".vim/bundles/gruvbox"]
 	path = .vim/bundles/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/bundles/nerdtree"]
+	path = .vim/bundles/nerdtree
+	url = https://github.com/preservim/nerdtree.git
+[submodule ".vim/bundles/coc.nvim"]
+	path = .vim/bundles/coc.nvim
+	url = https://github.com/neoclide/coc.nvim.git
+	branch = release
+[submodule ".vim/bundles/vimwiki"]
+	path = .vim/bundles/vimwiki
+	url = https://github.com/vimwiki/vimwiki.git
