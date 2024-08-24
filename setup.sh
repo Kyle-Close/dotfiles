@@ -1,40 +1,55 @@
 #!/bin/bash
 
-# Ensure the script exits on any command that fails
-set -e
-
-# Update package lists and install necessary packages
-
-# Check if running on macOS or Ubuntu
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    echo "Setting up on macOS..."
-
-    # Install Homebrew if not already installed
-    if ! command -v brew &> /dev/null; then
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
-
-    # Install GNU Stow and other necessary packages
-    brew install stow curl wget git
-
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    echo "Setting up on Ubuntu..."
-
-    sudo apt update
-    sudo apt install -y stow curl wget git
+# Update and upgrade the system (Ubuntu)
+if [ "$(uname)" == "Linux" ]; then
+  sudo apt update && sudo apt upgrade -y
+  # Install essential software for Ubuntu
+  sudo apt install -y git stow curl neovim zsh tmux
 fi
 
-# Run stow to create symlinks
+# Install Homebrew if on macOS
+if [ "$(uname)" == "Darwin" ]; then
+  # Check if Homebrew is installed, install if not
+  which -s brew
+  if [[ $? != 0 ]] ; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  fi
+
+  # Update Homebrew and install essential software for macOS
+  brew update
+  brew install git stow curl neovim zsh tmux
+fi
+
+# Clone your dotfiles repository
+if [ ! -d "$HOME/dotfiles" ]; then
+  git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
+fi
+
+# Change to the dotfiles directory
 cd ~/dotfiles
+
+# Use stow to set up symlinks
 stow .
 
-# Check for and install Vim-Plug (or other plugin managers) for Neovim
-if [ ! -f "~/.local/share/nvim/site/autoload/plug.vim" ]; then
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# Install Vim Plug if not already installed
+if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
+  curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+      https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
 # Install Neovim plugins
-nvim +PlugInstall +qall
+nvim +'PlugInstall --sync' +qa
 
-echo "Setup completed successfully!"
+# Set Zsh as the default shell
+chsh -s $(which zsh)
+
+# Optionally, install Oh My Zsh (if you use it)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+# Optionally, install any other custom tools or scripts you need
+# e.g., install a custom prompt, fonts, etc.
+
+# Final message
+echo "Setup complete! Please restart your terminal or log out and back in to apply changes."
