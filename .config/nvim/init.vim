@@ -19,6 +19,12 @@ Plug 'vimwiki/vimwiki'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","
 
+" Use <Enter> to confirm the selection
+inoremap <expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
+
+nnoremap <C-j> <C-d>zz
+nnoremap <C-k> <C-u>zz
+
 " Hit leader + o to navigate the open buffers
 nnoremap <Leader>o :ls<CR>
 
@@ -36,6 +42,8 @@ nnoremap O O<esc>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Base settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use the OS clipboard by default (on versions compiled with `+clipboard`)
+set clipboard=unnamed
 
 " Set line numbers so it shows the actual line number for current line
 set number
@@ -152,7 +160,7 @@ set undofile
 
 " Make tabs work like normal and set the tab distance to 4 columns (spaces)
 set smarttab
-set tabstop=4
+set tabstop=2
 
 " Make indenting smart by auto indenting new lines based on where we are in a code block for ex
 set ai "Auto indent
