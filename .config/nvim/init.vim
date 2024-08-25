@@ -11,6 +11,8 @@ Plug 'preservim/nerdtree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vimwiki/vimwiki'
 Plug 'karb94/neoscroll.nvim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " End of plugin section
  call plug#end()
@@ -20,18 +22,14 @@ Plug 'karb94/neoscroll.nvim'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","
 
+" Map <leader>o to open fuzzy find buffer
+nnoremap <leader>o :Buffers<CR>
+
+" Map <leader>f to open file search
+nnoremap <leader>f :Files<CR>
+
 " Use <Enter> to confirm the selection
 inoremap <expr> <CR> pumvisible() ? coc#_select_confirm() : "\<CR>"
-
-nnoremap <C-j> <C-d>zz
-nnoremap <C-k> <C-u>zz
-
-" Hit leader + o to navigate the open buffers
-nnoremap <Leader>o :ls<CR>
-
-" Jump up or down the page by using ctrl+j/k instead of ctrl+d/u
-nnoremap <C-d> <C-j>
-nnoremap <C-u> <C-k>
 
 " Hit jj to exit insert mode
 inoremap jj <esc>
@@ -227,8 +225,8 @@ local keymap = {
   ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 450; easing = 'circular' }) end;
   ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 450; easing = 'circular' }) end;
   -- When no value is passed the easing option supplied in setup() is used
-  ["<C-y>"] = function() neoscroll.scroll(-0.1, { move_cursor=false; duration = 100 }) end;
-  ["<C-e>"] = function() neoscroll.scroll(0.1, { move_cursor=false; duration = 100 }) end;
+  ["<C-y>"] = function() neoscroll.scroll(-0.15, { move_cursor=false; duration = 100 }) end;
+  ["<C-e>"] = function() neoscroll.scroll(0.15, { move_cursor=false; duration = 100 }) end;
 }
 local modes = { 'n', 'v', 'x' }
 for key, func in pairs(keymap) do
