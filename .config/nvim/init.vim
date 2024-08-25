@@ -10,6 +10,7 @@ Plug 'morhetz/gruvbox'
 Plug 'preservim/nerdtree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vimwiki/vimwiki'
+Plug 'karb94/neoscroll.nvim'
 
 " End of plugin section
  call plug#end()
@@ -35,7 +36,10 @@ nnoremap <C-u> <C-k>
 " Hit jj to exit insert mode
 inoremap jj <esc>
 
-" Don't want to enter insert mode after making a new line
+" Don't want to enter insert mode after making a new linnoremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-b> :call smooth_scroll#up(&scroll*2, 0, 4)<CR>
+noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>e
 nnoremap o o<esc>
 nnoremap O O<esc>
 
@@ -204,3 +208,30 @@ endfun
 if has("autocmd")
     autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee :call CleanExtraSpaces()
 endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Settings related to specific plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+lua << EOF
+neoscroll = require('neoscroll')
+neoscroll.setup({
+  -- Default easing function used in any animation where
+  -- the `easing` argument has not been explicitly supplied
+  easing = "quadratic"
+})
+local keymap = {
+  -- Use the "sine" easing function
+  ["<C-k>"] = function() neoscroll.ctrl_u({ duration = 250; easing = 'sine' }) end;
+  ["<C-j>"] = function() neoscroll.ctrl_d({ duration = 250; easing = 'sine' }) end;
+  -- Use the "circular" easing function
+  ["<C-h>"] = function() neoscroll.ctrl_b({ duration = 450; easing = 'circular' }) end;
+  ["<C-l>"] = function() neoscroll.ctrl_f({ duration = 450; easing = 'circular' }) end;
+  -- When no value is passed the `easing` option supplied in `setup()` is used
+  ["<C-y>"] = function() neoscroll.scroll(-0.1, { move_cursor=false; duration = 100 }) end;
+  ["<C-e>"] = function() neoscroll.scroll(0.1, { move_cursor=false; duration = 100 }) end;
+}
+local modes = { 'n', 'v', 'x' }
+for key, func in pairs(keymap) do
+    vim.keymap.set(modes, key, func)
+end
+EOF
