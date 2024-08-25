@@ -4,13 +4,11 @@ This repository contains configuration files for various tools and environments.
 
 ## Prerequisites
 
-You should be able to just run the 'setup.sh' script to handle installing dependencies. However, if it fails you need to make sure to manually install these:
-- Git
-- stow (for managing symlinks)
-- curl
-- Neovim
-- Zsh
-- Tmux
+Should be able to just run the 'setup.sh' script to handle installing dependencies.
+
+After running this once on Ubuntu there were a few hiccups.
+- The symlinks didn't work. I think it's because the files aleady existed where I was trying to link to. So adding a step to rm that file would probably be best.
+
 
 On **Ubuntu**, you can install these tools with:
 
