@@ -221,6 +221,9 @@ endif
 " Automatically format with Prettier on save
 " autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
 
+" Install Coc extensions if necessary
+let g:coc_global_extensions = ['coc-tsserver', 'coc-pyright', 'coc-emmet']
+
 lua << EOF
 neoscroll = require('neoscroll')
 neoscroll.setup({
@@ -236,8 +239,8 @@ local keymap = {
   ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 450; easing = 'circular' }) end;
   ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 450; easing = 'circular' }) end;
   -- When no value is passed the easing option supplied in setup() is used
-  ["<C-y>"] = function() neoscroll.scroll(-0.15, { move_cursor=false; duration = 100 }) end;
-  ["<C-e>"] = function() neoscroll.scroll(0.15, { move_cursor=false; duration = 100 }) end;
+  ["<C-y>"] = function() neoscroll.scroll(-0.25, { move_cursor=false; duration = 100 }) end;
+  ["<C-e>"] = function() neoscroll.scroll(0.25, { move_cursor=false; duration = 100 }) end;
 }
 local modes = { 'n', 'v', 'x' }
 for key, func in pairs(keymap) do
