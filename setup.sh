@@ -99,15 +99,39 @@ install_essentials() {
     exit 1
   fi
 
-  # Install Vim Plug for Neovim
+  # Install Vim plugin manager
   if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
     curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  fi
+
+  setup_tmux
+}
+
+setup_tmux() {
+  # Install Tmux plugin manager
+  git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+    # Check if tmux is running
+  if ! pgrep -x "tmux" > /dev/null; then
+    echo "Tmux is not running. Starting a new tmux session..."
+    # Start a new tmux session in detached mode
+    tmux new-session -d -s temp_session 'sleep 5; tmux source-file ~/.tmux.conf; tmux run-shell ~/.tmux/plugins/tpm/scripts/install_plugins.sh; tmux kill-session -t temp_session'
+    echo "Tmux session started and plugins installation initiated."
+  else
+    echo "Tmux is running. Sending command to install/update plugins..."
+    # Send the command to tmux to install/update plugins
+    tmux new-session -d 'tmux source-file ~/.tmux.conf; tmux run-shell ~/.tmux/plugins/tpm/scripts/install_plugins.sh'
+    echo "Plugins installation initiated. Restart your tmux session to apply changes."
   fi
 }
 
 cleanup_symlinks() {
   echo "Removing existing symlinks..."
+  # The symlink locations must not already exist
+  rm -rf ~/.config # for neovim
+  rm -rf ~/.tmux.conf # for tmux
+
   stow -D .
 }
 
