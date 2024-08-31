@@ -13,6 +13,7 @@ Plug 'vimwiki/vimwiki'
 Plug 'karb94/neoscroll.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
 
 " End of plugin section
  call plug#end()
@@ -21,6 +22,9 @@ Plug 'junegunn/fzf.vim'
 " => Remappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = ","
+
+" Hit leader + w to save file
+nnoremap <leader>w :w<CR>
 
 " Map <leader>o to open fuzzy find buffer
 nnoremap <leader>o :Buffers<CR>
@@ -160,9 +164,12 @@ set undofile
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Make tabs work like normal and set the tab distance to 4 columns (spaces)
+set expandtab       " Convert tabs to spaces
+set shiftwidth=2    " Number of spaces to use for each step of (auto)indent
+set softtabstop=2   " Number of spaces that a <Tab> counts for while editing
+set tabstop=2       " Number of spaces that a <Tab> counts for when displaying
 set smarttab
-set tabstop=2
+set smartindent
 
 " Make indenting smart by auto indenting new lines based on where we are in a code block for ex
 set ai "Auto indent
@@ -210,6 +217,10 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Settings related to specific plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Automatically format with Prettier on save
+" autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
+
 lua << EOF
 neoscroll = require('neoscroll')
 neoscroll.setup({
