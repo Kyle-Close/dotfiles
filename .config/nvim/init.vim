@@ -219,7 +219,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " 
-set modif
 
 " Automatically format with Prettier on save
 autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
