@@ -15,3 +15,8 @@ On **Ubuntu**, you can install these tools with:
 ```bash
 sudo apt update
 sudo apt install -y git stow curl neovim zsh tmux
+---------------------------------------------------------------
+### Symlinks
+This can all be handled with 'stow'. With stow we just have to keep this repo in the same structure as if it was the root folder. For example, normally neovim looks for init.vim in ~/.config/nvim so in this repo we need to have the same structure which is ./config/nvim/init.vim.
+
+On a new install we need to unlink and remove the symlink paths first before setting up the links. This is in case they already exist.
