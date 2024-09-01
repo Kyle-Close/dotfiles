@@ -218,8 +218,11 @@ endif
 " => Settings related to specific plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" 
+set modif
+
 " Automatically format with Prettier on save
-" autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
+autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
 
 " Install Coc extensions if necessary
 let g:coc_global_extensions = ['coc-tsserver', 'coc-pyright', 'coc-emmet']
