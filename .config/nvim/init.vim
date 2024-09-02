@@ -45,6 +45,9 @@ noremap <silent> <c-f> :call smooth_scroll#down(&scroll*2, 0, 4)<CR>e
 nnoremap o o<esc>
 nnoremap O O<esc>
 
+" Ctrl + n to toggle NERDTree
+nmap <C-n> :NERDTreeToggle<CR>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Base settings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
