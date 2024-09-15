@@ -6,7 +6,6 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
 " List plugins here
-Plug 'morhetz/gruvbox'
 Plug 'preservim/nerdtree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vimwiki/vimwiki'
@@ -14,6 +13,7 @@ Plug 'karb94/neoscroll.nvim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+Plug 'folke/tokyonight.nvim'
 
 " End of plugin section
  call plug#end()
@@ -21,7 +21,7 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --producti
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Remappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let mapleader = ","
+let mapleader = "a"
 
 " Hit leader + w to save file
 nnoremap <leader>w :w<CR>
@@ -61,7 +61,7 @@ set number
 set relativenumber
 
 " Set colorscheme
-colorscheme gruvbox
+colorscheme tokyonight
 
 " Have a vertical line when in insert mode
 let &t_SI = "\e[6 q"
@@ -131,12 +131,6 @@ set background=dark
 if $COLORTERM == 'gnome-terminal'
     set t_Co=256
 endif
-
-" Attempt to set the color scheme, if not available continue loading other configs
-try
-    colorscheme gruvbox
-catch
-endtry
 
 " Recognize special characters
 set encoding=utf8
