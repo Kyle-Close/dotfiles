@@ -16,6 +16,9 @@ Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --producti
 Plug 'folke/tokyonight.nvim'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
+Plug 'ray-x/lsp_signature.nvim'
+Plug 'neovim/nvim-lspconfig'
+Plug 'puremourning/vimspector'
 
 " End of plugin section
  call plug#end()
@@ -24,6 +27,9 @@ Plug 'ryanoasis/vim-devicons'
 " => Remappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let mapleader = "a"
+
+" Use `K` to trigger the hover action in TypeScript files
+nnoremap <silent> K :call CocActionAsync('hover')<CR>
 
 " Hit leader + w to save file
 nnoremap <leader>w :w<CR>
@@ -215,11 +221,51 @@ endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Settings related to specific plugins
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" 
 
-" Automatically format with Prettier on save
+" Enable LSP configuration
+lua << EOF
+require'lspconfig'.ts_ls.setup{
+  -- Optional settings can go here
+  on_attach = function(client, bufnr)
+    print("TypeScript LSP attached")
+  end
+}
+EOF
+
+" Configure lsp_signature.nvim
+lua << EOF
+require('lsp_signature').setup({
+  -- Options go here
+  bind = true, -- This is mandatory, otherwise border config won't get registered.
+  doc_lines = 10, -- Note: You can change the number of lines in the floating window to fit your preference
+  floating_window = true,
+  hint_enable = true,
+  hint_prefix = "🐼 ",  -- Panda for parameter
+  hint_scheme = "String",
+  use_lspsaga = false, -- If you want to use lspsaga
+  hi_parameter = "Search",
+})
+EOF
+
+" Lua function to toggle hover information
+lua << EOF
+local is_hover_visible = false
+
+function ToggleHover()
+  if is_hover_visible then
+    vim.lsp.buf.hover()
+    is_hover_visible = false
+  else
+    vim.lsp.buf.hover()
+    is_hover_visible = true
+  end
+end
+EOF
+
+" Map 'K' in normal mode to toggle hover information
+nnoremap <silent> K :lua ToggleHover()<CR>
+
 autocmd BufWritePre *.js,*.ts,*.jsx,*.tsx,*.css,*.scss,*.md PrettierAsync
 
 " Install Coc extensions if necessary
@@ -248,3 +294,9 @@ for key, func in pairs(keymap) do
     vim.keymap.set(modes, key, func)
 end
 EOF
+
+let g:vimspector_enable_mappings = 'HUMAN'
+let g:python3_host_prog = '~/.venvs/nvim/bin/python'
+
+nmap <Leader>di <Plug>VimspectorBalloonEval
+xmap <Leader>di <Plug>VimspectorBalloonEval
