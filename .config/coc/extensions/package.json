@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "coc-tsserver": ">=2.2.0",
     "coc-pyright": ">=1.1.377",
-    "coc-emmet": ">=1.1.6"
-  }
+    "coc-emmet": ">=1.1.6",
+    "coc-tsserver": ">=2.2.0"
+  },
+  "lastUpdate": 1726447699123
 }
