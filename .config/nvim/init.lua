@@ -69,6 +69,9 @@ vim.keymap.set("n", "<leader>w", "<cmd>:w<CR>")
 -- <C-t> to toggle NERDTREE
 vim.keymap.set("n", "<C-n>", ":NERDTreeToggle<CR>")
 
+-- Make 0 go to the first character on the line instead of the very starts
+vim.keymap.set("n", "0", "^")
+
 -----------------------------------------------------------------------------
 --  AUTO COMMANDS
 -----------------------------------------------------------------------------
