@@ -64,11 +64,11 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- Leader + w to save a file
 vim.keymap.set("n", "<leader>w", "<cmd>:w<CR>")
 
--- <C-t> to toggle NERDTREE
-vim.keymap.set("n", "<C-n>", ":NERDTreeToggle<CR>")
-
 -- Make 0 go to the first character on the line instead of the very starts
 vim.keymap.set("n", "0", "^")
+
+-- Open fugitive git menu
+vim.keymap.set("n", "<leader>g", ":Git<CR>")
 
 -----------------------------------------------------------------------------
 --  AUTO COMMANDS
@@ -628,13 +628,6 @@ require("lazy").setup({
             null_ls.builtins.formatting.prettier,
           },
         })
-
-        vim.api.nvim_set_keymap(
-          "n",
-          "<leader>f",
-          ":lua vim.lsp.buf.format()<CR>",
-          { noremap = true, silent = true }
-        )
       end,
       on_attach = function(client)
         if client.resolved_capabilities.document_formatting then
@@ -646,9 +639,7 @@ require("lazy").setup({
       "nvim-telescope/telescope-file-browser.nvim",
       dependencies = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" },
       config = function()
-        vim.keymap.set("n", "<space>fb", function()
-          require("telescope").extensions.file_browser.file_browser()
-        end)
+        vim.keymap.set("n", "<leader>f", "<cmd>:Telescope file_browser<CR>")
       end,
     },
     {
@@ -668,6 +659,64 @@ require("lazy").setup({
           desc = "Buffer Local Keymaps (which-key)",
         },
       },
+    },
+    {
+      "tpope/vim-fugitive",
+    },
+    {
+      "lewis6991/gitsigns.nvim",
+      config = function()
+        require("gitsigns").setup({
+          signs = {
+            add = { text = "┃" },
+            change = { text = "┃" },
+            delete = { text = "_" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
+          },
+          signs_staged = {
+            add = { text = "┃" },
+            change = { text = "┃" },
+            delete = { text = "_" },
+            topdelete = { text = "‾" },
+            changedelete = { text = "~" },
+            untracked = { text = "┆" },
+          },
+          signs_staged_enable = true,
+          signcolumn = true, -- Toggle with `:Gitsigns toggle_signs`
+          numhl = false, -- Toggle with `:Gitsigns toggle_numhl`
+          linehl = false, -- Toggle with `:Gitsigns toggle_linehl`
+          word_diff = false, -- Toggle with `:Gitsigns toggle_word_diff`
+          watch_gitdir = {
+            follow_files = true,
+          },
+          auto_attach = true,
+          attach_to_untracked = false,
+          current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+          current_line_blame_opts = {
+            virt_text = true,
+            virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
+            delay = 1000,
+            ignore_whitespace = false,
+            virt_text_priority = 100,
+            use_focus = true,
+          },
+          current_line_blame_formatter = "<author>, <author_time:%R> - <summary>",
+          sign_priority = 6,
+          update_debounce = 100,
+          status_formatter = nil, -- Use default
+          max_file_length = 40000, -- Disable if file is longer than this (in lines)
+          preview_config = {
+            -- Options passed to nvim_open_win
+            border = "single",
+            style = "minimal",
+            relative = "cursor",
+            row = 0,
+            col = 1,
+          },
+        })
+      end,
     },
   },
   -- Configure any other settings here. See the documentation for more details.
