@@ -5,6 +5,7 @@ alias vim="nvim"
 
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/dotfiles/.oh-my-zsh"
+export CARGO_HOME="$HOME/.cargo"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
