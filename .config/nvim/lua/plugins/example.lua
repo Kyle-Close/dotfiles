@@ -70,6 +70,8 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
+        ruby_lsp = {},
+        sorbet = {},
         -- pyright will be automatically installed with mason and loaded with lspconfig
         pyright = {},
       },
@@ -130,6 +132,7 @@ return {
         "python",
         "query",
         "regex",
+        "ruby",
         "tsx",
         "typescript",
         "vim",

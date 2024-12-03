@@ -13,9 +13,11 @@ return {
     config = function()
       local dap = require("dap")
 
+      -- Highlight for stopped lines
       local Config = require("lazyvim.config")
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
 
+      -- Set up DAP signs
       for name, sign in pairs(Config.icons.dap) do
         sign = type(sign) == "table" and sign or { sign }
         vim.fn.sign_define(
@@ -24,9 +26,9 @@ return {
         )
       end
 
+      -- JavaScript/Node.js configurations (existing code)
       for _, language in ipairs(js_based_languages) do
         dap.configurations[language] = {
-          -- Debug single nodejs files
           {
             type = "pwa-node",
             request = "launch",
@@ -35,7 +37,6 @@ return {
             cwd = vim.fn.getcwd(),
             sourceMaps = true,
           },
-          -- Debug nodejs processes (make sure to add --inspect when you run the process)
           {
             type = "pwa-node",
             request = "attach",
@@ -44,7 +45,6 @@ return {
             cwd = vim.fn.getcwd(),
             sourceMaps = true,
           },
-          -- Debug web applications (client side)
           {
             type = "pwa-chrome",
             request = "launch",
@@ -69,7 +69,6 @@ return {
             sourceMaps = true,
             userDataDir = false,
           },
-          -- Divider for the launch.json derived configs
           {
             name = "----- ↓ launch.json configs ↓ -----",
             type = "",
@@ -78,38 +77,25 @@ return {
         }
       end
     end,
-    keys = {
-      {
-        "<leader>dO",
-        function()
-          require("dap").step_out()
-        end,
-        desc = "Step Out",
-      },
-      {
-        "<leader>do",
-        function()
-          require("dap").step_over()
-        end,
-        desc = "Step Over",
-      },
-      {
-        "<leader>da",
-        function()
-          if vim.fn.filereadable(".vscode/launch.json") then
-            local dap_vscode = require("dap.ext.vscode")
-            dap_vscode.load_launchjs(nil, {
-              ["pwa-node"] = js_based_languages,
-              ["chrome"] = js_based_languages,
-              ["pwa-chrome"] = js_based_languages,
-            })
-          end
-          require("dap").continue()
-        end,
-        desc = "Run with Args",
-      },
-    },
+
     dependencies = {
+      {
+        "leoluz/nvim-dap-go",
+        opts = {
+          dap_configurations = {
+            {
+              type = "go",
+              name = "Debug Package with Args",
+              request = "launch",
+              program = "${workspaceFolder}",
+              args = function()
+                local input = vim.fn.input("Enter arguments: ")
+                return vim.split(input, " ")
+              end,
+            },
+          },
+        },
+      },
       -- Install the vscode-js-debug adapter
       {
         "microsoft/vscode-js-debug",
@@ -155,6 +141,10 @@ return {
       {
         "Joakker/lua-json5",
         build = "./install.sh",
+      },
+      {
+        "williamboman/mason.nvim",
+        opts = { ensure_installed = { "delve" } },
       },
     },
   },

@@ -6,12 +6,17 @@ alias vim="nvim"
 # Path to your Oh My Zsh installation.
 export ZSH="$HOME/dotfiles/.oh-my-zsh"
 export CARGO_HOME="$HOME/.cargo"
+export GOPATH=$HOME/gopath
+export PATH=$PATH:$(go env GOPATH)/bin
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="awesomepanda"
+
+
+eval "$(rbenv init -)"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
