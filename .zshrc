@@ -1,4 +1,6 @@
 alias vim="nvim"
+alias ssh-desktop='ssh -X kyle@192.168.1.66'
+alias desktop='kyle@192.168.1.66'
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH

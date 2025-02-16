@@ -12,6 +12,30 @@ return {
           },
         },
       },
+      ts_ls = {
+        settings = {
+          typescript = {
+            preferences = {
+              importModuleSpecifierPreference = "shortest",
+              importModuleSpecifier = "relative", -- Can also try "non-relative" or "project-relative"
+              importModuleSpecifierEnding = "minimal",
+              includePackageJsonAutoImports = "auto",
+            },
+            tsconfig = {
+              baseUrl = "./",
+              paths = {
+                ["@components/*"] = { "src/components/*" },
+                ["@utils/*"] = { "src/utils/*" },
+              },
+            },
+          },
+          javascript = {
+            preferences = {
+              importModuleSpecifier = "relative",
+            },
+          },
+        },
+      },
       -- pyright will be automatically installed with mason and loaded with lspconfig
       pyright = {},
       gopls = {
@@ -54,6 +78,9 @@ return {
       },
     },
     setup = {
+      ts_ls = function(_, opts)
+        require("lspconfig").tsserver.setup(opts)
+      end,
       gopls = function(_, opts)
         -- workaround for gopls not supporting semanticTokensProvider
         -- https://github.com/golang/go/issues/54531#issuecomment-1464982242
